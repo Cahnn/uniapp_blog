@@ -1,0 +1,79 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh":true
+			}			
+		},
+		{
+			"path": "pages/message/message",
+			"style": {
+				"navigationBarTitleText": "消息"
+			}
+		},
+		{
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		}
+	    ,{
+            "path" : "pages/home/add",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "新建博客",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+		{
+            "path" : "pages/home/blogInfoCmpt",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "博客详情",
+                "enablePullDownRefresh": false
+            }
+        },
+		{
+		    "path" : "pages/mine/components/concern",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "我的关注",
+		        "enablePullDownRefresh": true
+		    }
+		}
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "博客",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#DBDBDB"
+	},
+	"tabBar":{
+		// "borderStyle": "#DBDBDB",
+		"backgroundColor": "#FFFFFF",
+		"color": "#8F8F94",
+		"selectedColor": "#f33e54",
+		"list": [{
+				"pagePath": "pages/home/home",
+				"iconPath": "/static/home.png",
+				"selectedIconPath": "/static/homefill.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/message/message",
+				"iconPath": "/static/message.png",
+				"selectedIconPath": "/static/messagefill.png",
+				"text": "消息"
+			},
+			{
+				"pagePath": "pages/mine/mine",
+				"iconPath": "/static/mine.png",
+				"selectedIconPath": "/static/minefill.png",
+				"text": "我的"
+			}
+		]
+	}
+}

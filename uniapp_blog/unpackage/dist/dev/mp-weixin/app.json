@@ -1,0 +1,41 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/message/message",
+    "pages/mine/mine",
+    "pages/home/add"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "博客",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#DBDBDB"
+  },
+  "tabBar": {
+    "backgroundColor": "#FFFFFF",
+    "color": "#8F8F94",
+    "selectedColor": "#f33e54",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "iconPath": "/static/home.png",
+        "selectedIconPath": "/static/homefill.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/message/message",
+        "iconPath": "/static/message.png",
+        "selectedIconPath": "/static/messagefill.png",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "iconPath": "/static/mine.png",
+        "selectedIconPath": "/static/minefill.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

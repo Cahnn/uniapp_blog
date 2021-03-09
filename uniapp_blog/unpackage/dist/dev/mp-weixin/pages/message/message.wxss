@@ -1,0 +1,14 @@
+
+.top{
+	height: 80px;
+	width: 100%;
+	text-align: center;
+	margin-top: 15px;
+	border-bottom: 1px solid #F9F9F9;
+}
+.top view{
+	display: inline-block;
+	width: 33%;
+	text-align: center;
+}
+

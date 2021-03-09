@@ -1,0 +1,71 @@
+
+.fixed{
+	background-color: #FFFFFF;
+	z-index: 999;
+}
+.classify{
+	height: 35px;
+	width: 100%;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;    /*设置为横向排列*/
+	white-space: nowrap;    /* 强制不换行 */
+}
+.scrollx{
+	height: 35px;
+	width: 100%;
+}
+.category{
+	display: inline-block;
+	-webkit-border-radius: 12px;
+	        border-radius: 12px;
+	padding: 4px;
+	margin-right: 7px;
+	margin-left: 4px;
+	background-color: #F9F9F9;
+	color: #4C4C4C;
+	font-size: 15px;
+}
+.active{
+	color: #D81E06;
+}
+.write_article{
+	position: fixed;
+	right: 20px;
+	bottom: 80px;
+	width: 65px;
+	height: 65px;
+	-webkit-border-radius: 50px;
+	        border-radius: 50px;
+}
+.order_context{
+	width: 100%;
+	height: 480px;
+	z-index: -999;
+}
+swiper-item{
+	background-color: #007AFF;
+	width: 100%;
+	height: 100%;
+}
+.info{
+	height: 150px;
+	margin: 10px 10px 0 10px;
+	background-color: #C0C0C0;
+}
+.article_title{
+	height: 33px;
+	font-size: 20px;
+}
+.article_content{
+	height: 86px;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 4;/*显示几行*/
+	overflow: hidden;
+}
+.article_data{
+	height: 29px;
+}
+
