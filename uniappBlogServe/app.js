@@ -10,6 +10,7 @@ const cors = require('koa2-cors');
 const index = require('./routes/index')
 const users = require('./routes/users')
 const blog = require('./routes/blog')
+const blink = require('./routes/blink')
 const categoryFilterList = require('./routes/categoryFilterList')
 
 
@@ -40,6 +41,7 @@ app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(blog.routes(), blog.allowedMethods())
 app.use(categoryFilterList.routes(), categoryFilterList.allowedMethods())
+app.use(blink.routes(), blink.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

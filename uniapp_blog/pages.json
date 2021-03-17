@@ -8,9 +8,9 @@
 			}			
 		},
 		{
-			"path": "pages/message/message",
+			"path": "pages/blink/blink",
 			"style": {
-				"navigationBarTitleText": "消息"
+				"navigationBarTitleText": "Blink"
 			}
 		},
 		{
@@ -23,7 +23,7 @@
             "path" : "pages/home/add",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "新建博客",
+                "navigationBarTitleText": "新建/修改",
                 "enablePullDownRefresh": false
             }
             
@@ -44,6 +44,24 @@
 		        "enablePullDownRefresh": true
 		    }
 		}
+        ,{
+            "path" : "pages/mine/components/manageCategory",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "分类管理",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/blink/components/publish",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "发布Blink",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -63,10 +81,10 @@
 				"text": "首页"
 			},
 			{
-				"pagePath": "pages/message/message",
-				"iconPath": "/static/message.png",
-				"selectedIconPath": "/static/messagefill.png",
-				"text": "消息"
+				"pagePath": "pages/blink/blink",
+				"iconPath": "/static/blink.png",
+				"selectedIconPath": "/static/blinkfill.png",
+				"text": "Blink"
 			},
 			{
 				"pagePath": "pages/mine/mine",

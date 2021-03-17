@@ -2,19 +2,28 @@
 	<view class="add_article">
 		<form @submit="formSubmit">
 			<view class="blog_title">
-				<input value="" name="title" placeholder="请输入标题" type="text" v-model="this.editInfo.title" />
+				<input value="" name="title" placeholder="请输入标题" type="text" v-if="!this.id" />
+				<input value="" placeholder="请输入标题" type="text" v-else v-model="editBlog.title" />
 			</view>
 			<view class="blog_content">
-				<textarea name="content"  v-model="this.editInfo.content" maxlength="-1" placeholder="请输入内容..." style="overflow: hidden;"></textarea>
+				<textarea name="content" maxlength="-1" placeholder="请输入内容..." v-if="!this.id" style="overflow: hidden;"></textarea>
+				<textarea maxlength="-1" placeholder="请输入内容..." v-else v-model="editBlog.content" style="overflow: hidden;"></textarea>
 			</view>
 			<view class="selectCategory">
-				<!-- 获取已有分类，自行创建分类 -->
 				<scroll-view scroll-x="true" class="scrollx">
 					<view class="uni-list">
-						<radio-group @change="radioChange" name="category">
+						<radio-group @change="radioChange" name="category" v-if="!this.id">
 							<label class="uni-list-cell" v-for="(item, index) in categoryFilterList" :key="item.id" v-show="item.name!='全部'">
 								<view class="itemRadio">
 									<radio :value="item.category" :checked="index === current"/>
+								</view>
+								<view class="itemName">{{item.name}}</view>
+							</label>
+						</radio-group>
+						<radio-group @change="radioChange" v-else>
+							<label class="uni-list-cell" v-for="(item, index) in categoryFilterList" :key="item.id" v-show="item.name!='全部'">
+								<view class="itemRadio">
+									<radio :value="item.category" :checked="item.category === editBlog.category" disabled/>
 								</view>
 								<view class="itemName">{{item.name}}</view>
 							</label>
@@ -35,19 +44,32 @@
 			return {
 				value:0,
 				current: 0,
-				blogInfo:[],
+				blogInfo:{},
 				categoryFilterList:[],
-				editInfo:{}
+				id:Number,
+				editBlog:{}
 			}
 		},
 		onLoad(option) {
-			if (option.editInfo===undefined){
-				console.log('数据为空值')
-			}else{
-				// JSON.parse(option.blogInfo) 转换成对象
-				this.editInfo = JSON.parse(option.editInfo)
-			}
-			console.log("需要编辑的内容为：",this.editInfo)
+			this.id = option.artId
+			console.log(this.id)
+			uni.request({
+				url:this.server_url+'/blog/find',
+				data:{
+					form:{
+						"id":this.id
+					}
+				},
+				method:"POST",
+				success: (res) => {
+					this.editBlog = res.data.data[0]
+					console.log("this.id的内容是:",this.editBlog)
+				},
+				fail: (err) => {
+					console.log(err)
+				}
+			})
+			
 			uni.request({
 				url:this.server_url+"/categoryFilterList/find",
 				method:"POST",
@@ -70,18 +92,21 @@
 					  alert("文章分类不能为空")
 					  return;
 				  }	
-				  else if(this.blogInfo.id) {
+				  else if(this.id) {
+					  console.log("编辑内容的id",this.id)
+					  console.log(this.editBlog.title)
 					  uni.request({
-						url:this.server_url+'/blog/update',
+					  	url:this.server_url+"/blog/update",
 						method:"POST",
 						header:{
 							// 固定格式
 							'content-type':'application/x-www-form-urlencoded'
 						},
 						data:{
-							title:this.blogInfo.title,
-							content:this.blogInfo.content,
-							category:this.blogInfo.category
+							id:this.id,
+							title:this.editBlog.title,
+							content:this.editBlog.content,
+							category:this.editBlog.category
 						},
 						success: (res) => {
 							console.log(res)
@@ -90,7 +115,8 @@
 							console.log(err)
 						}
 					  })
-				  }	else{
+				  }
+				  else{
 					  uni.request({
 						url:this.server_url+'/blog/add',
 						method:"POST",

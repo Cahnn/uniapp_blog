@@ -1,18 +1,18 @@
 <template>
 	<view class="blogInfo">
 		<view class="operation">
-			<view class="edit" @click="editBlog(blogInfo)">
+			<view class="edit" @click="editBlog(blogInfo)" :data-artid="blogInfo.id">
 				<image src="../../static/message/comment.png"></image>
 				<br/>
 				<view class="word">编辑</view>
 			</view>
-			<view class="good">
-				<image src="../../static/message/good.png"></image>
+			<view class="good" @tap="deleteBlog" :data-artid="blogInfo.id">
+				<image src="../../static/message/delete.png"></image>
 				<br/>
-				<view class="word">点赞</view>
+				<view class="word">删除</view>
 			</view>
-			<view class="collection">
-				<image :src="collectionImg"  @tap="collectionFollow()"></image>
+			<view class="collection" @tap="collectionFollow">
+				<image :src="collectionImg"></image>
 				<br/>
 				<view class="word">{{colStatus}}</view>
 			</view>
@@ -167,23 +167,68 @@
 					}
 				})
 			},
-			editBlog(editInfo){
+			editBlog(e){
+				console.log(e.id)
+				var artId = e.id;
 				uni.navigateTo({
-					//encodeURIComponent() 函数可把字符串作为 URI 组件进行编码。
-					url:'/pages/home/add?editInfo='+JSON.stringify(editInfo)
+					url:'/pages/home/add?artId='+artId
 				})
 			},
-			deleteBlog(info){
-				uni.request({
-					url:this.server_url+'/blog/delete',
-					method:"DELETE",
-					success: (res) => {
-						code:200,
-						console.log("删除成功")
-					},
-					fail: (err) => {
-						code:400,
-						console.log(err)
+			deleteBlog(e){
+				var artId = e.currentTarget.dataset.artid
+				console.log(artId)
+				uni.showModal({
+					title:"提示",
+					content:"确定要删除吗?",
+					success: (e) => {
+						if(e.confirm){
+							uni.request({
+								url:this.server_url+'/blog/remove',
+								method:"POST",
+								data:{
+									id:artId
+								},
+								success: (res) => {
+									code:200,
+									uni.showToast({
+										title:"已删除",
+										icon:"success"
+									})
+									// 如果被删除文章是收藏文章，则把收藏缓存清除
+									if(this.collection === true){
+										uni.getStorage({
+											key:"MyCollectionBlogsList",
+											success: (res) => {
+												let MyCollection = res.data
+												let index = MyCollection.findIndex(item => {
+													if(item.id === this.blogInfo.id){
+														return true;
+													}
+												})
+												MyCollection.splice(index,1)
+												this.setBlogCollection(MyCollection,false)
+											}
+										})
+									}
+									setTimeout(() => {
+										uni.switchTab({
+											url: "./home",
+										});
+									}, 500);
+								},
+								fail: (err) => {
+									uni.showToast({
+										title:"删除失败",
+										icon:"none"
+									})
+								}
+							})
+						}else if(e.cancel){
+							uni.showToast({
+								title:"取消删除",
+								icon:"success"
+							})
+						}	
 					}
 				})
 			}
@@ -207,7 +252,7 @@
 	bottom: 0;
 	left: 0;
 	background-color: #FFFFFF;
-	z-index: 999;
+	z-index: 999;;
 }
 .operation view{
 	display: inline-block;

@@ -1,19 +1,26 @@
 <template>
 	<view>
-		<view class="headerbg">
-			
-		</view>
+		<view class="headerbg"></view>
 		<view class="personMess">
 			<view class="info">
 				<view class="topImg">
-					<view class="img" @tap="toConcern()"></view>
+					<view class="img">
+						<image src="../../static/blinkfill.png" style="width: 100%;height: 100%;"></image>
+					</view>
 				</view>
 				<view class="name">
 					<h2>Lecoce</h2>
 				</view>
 			</view>
 			<view class="mess">
-				<h2>人生格言：知足常乐</h2>
+				<view class="edit" @tap="manageCategory()">
+					<view><image src="../../static/mine/manage.png" style="width: 80upx;height: 80upx;"></image></view>
+					<view class="word">分类管理</view>
+				</view>
+				<view class="good" @tap="toConcern()">
+					<view><image src="../../static/mine/collections.png" style="width: 110upx;height: 80upx;"></image></view>
+					<view class="word">收藏集</view>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -28,6 +35,11 @@
 			}
 		},
 		methods: {
+			manageCategory(){
+				uni.navigateTo({
+					url:'./components/manageCategory'
+				})
+			},
 			toConcern() {
 				uni.navigateTo({
 					url:'components/concern'
@@ -47,7 +59,7 @@
 .personMess{
 	width: 90%;
 	margin: 0 auto;
-	height: 450upx;
+	height: 390upx;
 	-webkit-box-shadow: #F2F2F2 0px 0px 10px;
 	-moz-box-shadow: #F2F2F2 0px 0px 10px;
 	box-shadow: #F2F2F2 0px 0px 10px;
@@ -58,8 +70,8 @@
 .info{
 	width: 95%;
 	margin: 0 auto;
-	height: 200upx;
-	border-bottom: 1upx #555555 solid;
+	height: 190upx;
+	border-bottom: 1upx #ababab solid;
 	display: flex;
 }
 .topImg{
@@ -68,18 +80,29 @@
 .img{
 	width: 70%;
 	height: 130upx;
-	background-color: #2C405A;
 	border-radius: 50%;
 	margin-top: 30upx;
-	margin-left: 10px;
+	margin-left: 20upx;
 }
 .name{
 	width: 40%;
-	height: 100px;
-	line-height: 90px;
+	height: 200upx;
+	line-height: 180upx;
 }
 .mess{
-	margin-top: 40px;
-	margin-left: 25px;
+	width: 100%;
+	text-align: center;
+	background-color: #FFFFFF;
+	margin-top: 28upx;
+}
+.edit, .good{
+	display: inline-block;
+	width: 50%;
+	text-align: center; 
+	font-size: 13px;
+}
+.word{
+	font-size: 15px;
+	margin-top: 10upx;
 }
 </style>

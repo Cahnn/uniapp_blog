@@ -4,7 +4,6 @@
 		<block
 			v-for="(item,index) in collectionBlogsList" 
 			:key="index" 
-			@tap="goBlogInfo(item)" 
 			:class="index===collectionBlogsList.length"
 			>
 			<view class="cancelConcern" @tap="cancelCol(index)">
@@ -14,6 +13,7 @@
 				@touchstart="moveStart(index,$event)"
 				@touchmove="moving(index,$event)"
 				@touched="mouveend(index,$event)"
+				@click="goBlogInfo(item)" 
 				:class="[theIndex==index?'open':oldIndex==index?'close':'']">
 					<h3 class="article_title">{{item.title}}</h3>
 					<view class="article_content">{{item.content}}</view>
@@ -39,6 +39,7 @@
 		},
 		methods:{
 			goBlogInfo(blogInfo){
+				console.log(blogInfo)
 				uni.navigateTo({
 					//encodeURIComponent() 函数可把字符串作为 URI 组件进行编码。
 					url:'/pages/home/blogInfoCmpt?blogInfo='+JSON.stringify(blogInfo)
@@ -179,6 +180,9 @@
 	.article_title{
 		height: 60upx;
 		font-size: 18px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 	.article_content{
 		display: -webkit-box;

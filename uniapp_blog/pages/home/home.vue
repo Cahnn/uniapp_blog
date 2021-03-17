@@ -36,8 +36,9 @@
 								</view>
 							</view>
 						</scroll-view>
+						<!-- 倒序排列，将最新的文章展示在最上面 -->
 						<view 
-						v-for="(item,index) in blogs" 
+						v-for="(item,index) in blogs.slice().reverse()" 
 						:key="index" 
 						@tap="goBlogInfo(item)" 
 						:class="index===blogs.length"
@@ -81,8 +82,11 @@
 			}
 		},
 		onLoad() {
+			// 获取被选中的tab选项
 			this.getCategoryListTab()
-			// 获取分类列表
+		},
+		onShow() {
+			// 获取分类列表 实时更新分类栏状态
 			uni.request({
 				url:this.server_url+"/categoryFilterList/find",
 				method:"POST",
@@ -93,6 +97,7 @@
 					console.log(err)
 				}
 			})
+			this.getCategoryListTab()
 		},
 		methods: {
 			onChange: function(e) {
@@ -154,6 +159,7 @@
 					method:"POST",
 					success: (res) => {
 						this.blogs = res.data.data
+						console.log(this.blogs)
 					},
 					fail: (err) => {
 						console.log(err)
@@ -325,10 +331,11 @@
 	}
 	.article_title{
 		height: 60upx;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 	.article_content{
-		/* height: 150upx; */
-		/* width: 670upx; */
 		display: -webkit-box;
 		-webkit-box-orient:vertical;
 		word-wrap: break-word;

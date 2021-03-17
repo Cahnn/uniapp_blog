@@ -3,6 +3,7 @@ import App from './App'
 import request from './utils/request'
 import { Base64 } from './base64.min.js';
 
+
 Vue.config.productionTip = false
 
 Vue.prototype.$base64 = Base64;

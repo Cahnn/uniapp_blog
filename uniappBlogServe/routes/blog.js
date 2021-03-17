@@ -41,6 +41,9 @@ router.post('/find',async function (ctx,next){
         options.offset = (page.index)*page.size
         options.limit = page.size
     }
+    if (form.id){
+        options.where = form
+    }
     let list = await Model.findAll(options)
     ctx.body = {
         code:200,
@@ -51,25 +54,42 @@ router.post('/find',async function (ctx,next){
 
 router.post('/update', async function (ctx, next) {
     console.log(ctx.request.body)
-    let pbj = await Model.update({ id: ctx.request.body.id }, ctx.request.body);
-    ctx.body = pbj
+    let form = await Model.update(
+        {
+            title:ctx.request.body.title,
+            content:ctx.request.body.content,
+            category:ctx.request.body.category
+        },
+        {
+            where:{
+                id:ctx.request.body.id
+            }
+        })
+    ctx.body = {
+        code:200,
+        data:form
+    }
 })
 
-// router.post('/delete',async function(ctx,next){
-//     await Model.destroy({
-//         where:{id:ctx.request.body.id}
-//     })
-//     ctx.body = "success"
-// })
-
-router.post('/delete', async function (ctx, next) {
-    console.log(ctx.request.body)
+router.post('/remove', async function (ctx, next) {
+    let artId = parseInt(ctx.request.body.id)
+    // let classify = ctx.request.body.classify
     await Model.destroy({
-        where: {
-            id : ctx.request.body.id
+        where:{
+            id:artId
         }
     });
-    ctx.body = 'success '
+    ctx.body = 'success'
+})
+
+router.post('/removeCategory', async function (ctx, next) {
+    let classify = ctx.request.body.classify
+    await Model.destroy({
+        where:{
+            category:classify
+        }
+    });
+    ctx.body = 'success'
 })
 
 module.exports = router
