@@ -15,6 +15,9 @@
 				<image :src="collectionImg"></image>
 				<br/>
 				<view class="word">{{colStatus}}</view>
+				<view :animation="animationData" class="praise-me animation-opacity">
+					+1
+				</view>
 			</view>
 		</view>
 		<view class="info">
@@ -32,7 +35,8 @@
 				collection:false,
 				collectionImg:'/static/message/star.png',
 				blogId: '',
-				colStatus:'收藏'
+				colStatus:'收藏',
+				
 			}
 		},
 		onLoad(option) {
@@ -52,6 +56,7 @@
 				}
 			})
 			this.getCollectionActive()
+			
 		},
 		onShow() {
 			if (uni.getStorageSync('userid')) {
@@ -140,6 +145,7 @@
 						}
 					})
 				}
+				
 			},
 			// 获取收藏状态
 			async getCollectionActive() {
@@ -243,34 +249,35 @@
 	text-align: center;
 }
 .operation{
-	height: 60px;
+	height: 120upx;
 	width: 100%;
 	text-align: center;
-	padding-top: 10px;
-	border-bottom: 1px solid #F9F9F9;
+	padding-top: 20upx;
+	border-bottom: 2upx solid #F9F9F9;
 	position: fixed;
 	bottom: 0;
 	left: 0;
+	display: flex;
+	align-items: center;
 	background-color: #FFFFFF;
 	z-index: 999;;
 }
 .operation view{
-	display: inline-block;
-	width: 33%;
+	flex: 1;
 	text-align: center; 
-	font-size: 13px;
+	font-size: 25upx;
 }
 .operation view image{
 	width: 60upx;
 	height: 60upx;
 }
 .info{
-	margin-top: 20px;
-	padding-bottom: 80px;
+	margin-top: 40upx;
+	padding-bottom: 160upx;
 }
 .content{
-	margin-top: 10px;
-	line-height: 30px;
-	font-size: 20px;
+	margin-top: 20upx;
+	line-height: 60upx;
+	font-size: 40upx;
 }
 </style>

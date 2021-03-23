@@ -9,6 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "cos-nodejs-sdk-v5": "^2.9.12",
     "debug": "^4.1.1",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
@@ -20,6 +21,7 @@
     "koa-static": "^5.0.0",
     "koa-views": "^6.2.0",
     "koa2-cors": "^2.0.6",
+    "koa2-upload": "^1.0.4",
     "mysql2": "^2.2.5",
     "pug": "^2.0.3",
     "sequelize": "^6.5.0"

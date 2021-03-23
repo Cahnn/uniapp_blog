@@ -8,7 +8,8 @@ Vue.config.productionTip = false
 
 Vue.prototype.$base64 = Base64;
 
-Vue.prototype.server_url = "http://localhost:3003/api";
+// Vue.prototype.server_url = "http://localhost:3003/api";
+Vue.prototype.server_url = "/api";
 
 //调用  request 函数后  得到一个新的函数
 const plugin = request({

@@ -84,6 +84,22 @@
 		onLoad() {
 			// 获取被选中的tab选项
 			this.getCategoryListTab()
+			uni.request({
+				url:this.server_url+'/blog/find',
+				data:{
+					form:{
+						"category":"all"
+					}
+				},
+				method:"POST",
+				success: (res) => {
+					this.blogs = res.data.data
+					console.log(this.blogs)
+				},
+				fail: (err) => {
+					console.log(err)
+				}
+			})
 		},
 		onShow() {
 			// 获取分类列表 实时更新分类栏状态
@@ -119,7 +135,7 @@
 					//为防止数据叠加，做初始化
 					this.blogs = [];
 					//传递当前tab的text值
-					this.getCategoryList(index)
+					this.getBlogList(index)
 			},
 			// async  有关异步操作  只有被调用时才会触发
 			// 获取被选中的tab
@@ -127,7 +143,7 @@
 				// 判断是否选中，并把i传过去
 				for(let i=0;i<this.categoryFilterList.length;i++){
 					if(this.categoryFilterList[i].selected){
-						this.getCategoryList(i)
+						this.getBlogList(i)
 					}
 				}
 			},
@@ -147,7 +163,7 @@
 			},
 			// 从后台获取数据
 			// i 是从getCategoryListTab()传过来的 i
-			async getCategoryList(i){
+			async getBlogList(i){
 				console.log(i);
 				uni.request({
 					url:this.server_url+'/blog/find',
@@ -227,7 +243,7 @@
 	
 </script>
 
-<style>
+<style scoped lang="scss">
 	.fixed{
 		background-color: #FFFFFF;
 		z-index: 999;
@@ -260,7 +276,7 @@
 	.cu-title{
 		height: 60upx;
 		width: 100%;
-		font-size: 15px;
+		font-size: 30upx;
 		border-bottom: 3upx solid #F2F2F2;
 		padding-left: 10upx;
 		padding-top: 15upx;
@@ -295,10 +311,10 @@
 		color: #4C4C4C;
 	}
 	.tabItem{
-		padding: 4px 6px;
-		border-radius: 12px;
+		padding: 8upx 12upx;
+		border-radius: 25upx;
 		background-color: #FFFFFF;
-		margin-right: 5px;
+		margin-right: 10upx;
 	}
 	.active{
 		color: #FFFFFF;
@@ -306,15 +322,15 @@
 	}
 	.write_article{
 		position: fixed;
-		right: 20px;
-		bottom: 80px;
-		width: 65px;
-		height: 65px;
-		border-radius: 50px;
+		right: 40upx;
+		bottom: 160upx;
+		width: 130upx;
+		height: 130upx;
+		border-radius: 100upx;
 	}
 	.order_context{
 		width: 100%;
-		height: 480px;
+		height: 960upx;
 		z-index: -999;
 	}
 	swiper-item{
@@ -324,7 +340,7 @@
 	}
 	.info{
 		height: 230upx;
-		margin: 10px 10px 0 10px;
+		margin: 20upx 20upx 0 20upx;
 		background-color: #f9f9f9;
 		border-radius: 20upx;
 		padding: 10upx;
@@ -349,12 +365,12 @@
 	.end{
 		text-align: center;
 		color: #D8D8D8;
-		margin-top: 5px;
-		margin-bottom: 10px;
+		margin-top: 10upx;
+		margin-bottom: 20upx;
 	}
 	.scroll_top{
 		position: fixed;
-		bottom: 70px;
+		bottom: 140upx;
 		left: 340upx;
 	}
 </style>

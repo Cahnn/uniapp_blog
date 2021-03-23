@@ -2,13 +2,12 @@
 	<view>
 		<textarea :value="text" v-model="text" @input="textInput" placeholder="此刻的想法...(最多只能输入100个字符)" maxlength="100"></textarea>
 		<view class="uni-padding-wrap uni-common-mt">
-			<view class="demo">
-				<block v-if="imageSrc">
-					<image :src="imageSrc" name="photo" class="image" mode="widthFix"></image>
-				</block>
-				<block v-else>
-					<view class="uni-hello-addfile" @click="chooseImage">+ 选择图片</view>
-				</block>
+			<view class="demo" @click="chooseImage">
+				<!-- <block> -->
+					<!-- <image  v-if="imageSrc" :src="imageSrc" name="photo" class="image" mode="widthFix"></image> -->
+					<img v-if="imageSrc" :src="imageSrc" alt="" class="image" mode="widthFix">
+					<view  v-else class="uni-hello-addfile">+ 选择图片</view>
+				<!-- </block> -->
 			</view>
 		</view>
 		<view class="tag">
@@ -49,6 +48,7 @@
 					},
 					data:{
 						text:this.text,
+						photo:this.imageSrc,
 						tag:this.tag
 					},
 					success: (res) => {
@@ -58,25 +58,11 @@
 						console.log(err)
 					}
 				})
-				uni.request({
-					url:this.server_url+'/blink/addImg',
-					method:"POST",
-					header:{
-						// 固定格式
-						'content-type':'application/x-www-form-urlencoded'
-					},
-					data:{
-						// 获取id
-						id:'',
-						photo:this.imageSrc
-					},
-					success: (res) => {
-						console.log(res)
-					},
-					fail: (err) => {
-						console.log(err)
-					}
-				})
+				setTimeout(() => {
+					uni.switchTab({
+						url: "../blink",
+					});
+					}, 1000);
 			},
 			chooseImage: function() {
 				uni.chooseImage({
@@ -84,21 +70,22 @@
 					sizeType: ['compressed'],
 					sourceType: ['album'],
 					success: (res) => {
-						console.log('chooseImage success, temp path is', res.tempFilePaths[0])
+						// console.log('chooseImage success, temp path is', res.tempFilePaths[0])
 						var imageSrc = res.tempFilePaths[0]
+						console.log(imageSrc)
 						uni.uploadFile({
-							url: 'https://unidemo.dcloud.net.cn/upload',
+							url: this.server_url+"/blink/addImg",
 							filePath: imageSrc,
 							fileType: 'image',
 							name: 'data',
 							success: (res) => {
 								console.log('uploadImage success, res is:', res)
+								this.imageSrc = res.data
 								uni.showToast({
 									title: '上传成功',
 									icon: 'success',
 									duration: 1000
 								})
-								this.imageSrc = imageSrc
 							},
 							fail: (err) => {
 								console.log('uploadImage fail', err);

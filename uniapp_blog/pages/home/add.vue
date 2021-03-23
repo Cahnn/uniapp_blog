@@ -158,26 +158,28 @@
 <style>
 .blog_title{
 	width: 100%;
-	height: 60px;
+	height: 120upx;
 	border-bottom: #F1F1F1 3px solid;
 }
 .blog_title input{
 	width: 100%;
 	height: 100%;
 	font-size: 20px;
-	margin-left: 10px;
+	margin-left: 20upx;
 	
 }
 textarea{
 	width: 95%;
-	height: 400px;
+	height: 890upx;
 	font-size: 18px;
-	margin: 10px;
+	margin: 20upx;
 }
 .selectCategory{
 	width: 100%;
-	height: 65px;
-	border-top: #F1F1F1 3px solid;
+	height: 130upx;
+	border-top: #F1F1F1 5upx solid;
+	position: fixed;
+	bottom: 140upx;
 }
 .uni-list{
 	width: 100%;
@@ -186,34 +188,35 @@ textarea{
 }
 .uni-list-cell{
 	display: inline-block;
-	width: 80px;
+	width: 160upx;
 	text-align: center;
 }
 .itemRadio{
-	margin-top: 10px;
+	margin-top: 20upx;
 }
 .itemName{
-	margin-top: 5px;
+	margin: 10upx 0;
+	font-size: 14px;
 }
 .scrollx{
 	width: 100%;
 }
 .submit{
 	width: 100%;
-	height: 65px;
+	height: 130upx;
 	position: fixed;
 	bottom: 0;
 	border-top: #F1F1F1 3px solid;
 }
 .postArti{
-	width: 115px;
-	height: 50px;
-	border-radius: 12px;
+	width: 230upx;
+	height: 100upx;
+	border-radius: 24upx;
 	background-color: #D81E06;
 	color: white;
-	font-size: 20px;
+	font-size: 40upx;
 	float: right;
-	margin-right: 20px;
-	margin-top: 7px;
+	margin-right: 40upx;
+	margin-top: 14upx;
 }
 </style>

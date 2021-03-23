@@ -10,7 +10,8 @@
 		{
 			"path": "pages/blink/blink",
 			"style": {
-				"navigationBarTitleText": "Blink"
+				"navigationBarTitleText": "Blink",
+				"enablePullDownRefresh":true
 			}
 		},
 		{
@@ -64,6 +65,7 @@
         }
     ],
 	"globalStyle": {
+		"navigationStyle":"custom",
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "博客",
 		"navigationBarBackgroundColor": "#F8F8F8",
