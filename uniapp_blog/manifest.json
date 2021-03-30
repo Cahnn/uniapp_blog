@@ -78,20 +78,21 @@
     "h5" : {
         "title" : "blog",
         "domain" : "",
-		"devServer" : {
-		            "https" : false,
-		            "port" : "",
-		            "disableHostCheck" : true,
-		            "proxy" : {
-		                "/api" : {
-		                    "target" : "http://localhost:3003/api",
-		                    "changeOrigin" : true,
-		                    "secure" : false,
-		                    "pathRewrite" : {
-		                        "^/api" : ""
-		                    }
-		                }
-		            }
-		        }
+        "devServer" : {
+            "https" : false,
+            "port" : "",
+            "disableHostCheck" : true,
+            "proxy" : {
+                "/api" : {
+                    "target" : "http://localhost:3003/api",
+                    "changeOrigin" : true,
+                    "secure" : false,
+                    "pathRewrite" : {
+                        "^/api" : ""
+                    }
+                }
+            }
+        },
+        "template" : "index.html"
     }
 }

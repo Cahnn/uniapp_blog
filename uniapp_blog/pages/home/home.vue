@@ -37,18 +37,18 @@
 							</view>
 						</scroll-view>
 						<!-- 倒序排列，将最新的文章展示在最上面 -->
-						<view 
-						v-for="(item,index) in blogs.slice().reverse()" 
-						:key="index" 
-						@tap="goBlogInfo(item)" 
-						:class="index===blogs.length"
-						>
-							<view class="info">
-								<h3 class="article_title">{{item.title}}</h3>
-								<view class="article_content">{{item.content}}</view>
-							</view>
-							<view class="end" v-if="index==blogs.length-1">{{status}}</view>
-						</view>
+						<uni-card 
+							v-for="(item,index) in blogs.slice().reverse()"
+							:key="index" 
+							@tap="goBlogInfo(item)" 
+							:class="index===blogs.length"
+							:title="item.title" 
+							:thumbnail="userInfo.topImage" 
+							:extra="item.createdAt">
+						    	<!-- <view class="article_content">{{item.content}}</view> -->
+								<rich-text :nodes="item.content" class="article_content"></rich-text>
+						</uni-card>
+						<view class="end">{{status}}</view>
 					</view>
 				</view>
 			</view>			
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-				
+	import uniCard from '../../uni_modules/uni-card/components/uni-card/uni-card.vue'			
 	export default {
 		data() {
 			return {
@@ -79,11 +79,14 @@
 					scrollTop: 0
 				},
 				scrollTopShow: false,
+				userInfo:{}
 			}
 		},
 		onLoad() {
 			// 获取被选中的tab选项
 			this.getCategoryListTab()
+			// 获取用户信息
+			this.getUserInfo()
 			uni.request({
 				url:this.server_url+'/blog/find',
 				data:{
@@ -116,6 +119,18 @@
 			this.getCategoryListTab()
 		},
 		methods: {
+			async getUserInfo(){
+				uni.request({
+					url:this.server_url+"/users/find",
+					method:"POST",
+					success: (res) => {
+						this.userInfo = res.data.data[0]
+					},
+					fail: (err) => {
+						console.log(err)
+					}
+				})
+			},
 			onChange: function(e) {
 				this.old.x = e.detail.x
 				this.old.y = e.detail.y
@@ -238,6 +253,9 @@
 					this.scrollTopShow = true
 				}
 			}
+		},
+		components:{
+			uniCard
 		}
 	}
 	
@@ -312,13 +330,13 @@
 	}
 	.tabItem{
 		padding: 8upx 12upx;
-		border-radius: 25upx;
+		// border-radius: 25upx;
 		background-color: #FFFFFF;
 		margin-right: 10upx;
 	}
 	.active{
-		color: #FFFFFF;
-		background-color: #D81E06;
+		color: #D81E06;
+		border-bottom: 1px solid #D81E06;
 	}
 	.write_article{
 		position: fixed;
@@ -327,6 +345,7 @@
 		width: 130upx;
 		height: 130upx;
 		border-radius: 100upx;
+		z-index: 999;
 	}
 	.order_context{
 		width: 100%;
@@ -338,19 +357,6 @@
 		width: 100%;
 		height: 100%;
 	}
-	.info{
-		height: 230upx;
-		margin: 20upx 20upx 0 20upx;
-		background-color: #f9f9f9;
-		border-radius: 20upx;
-		padding: 10upx;
-	}
-	.article_title{
-		height: 60upx;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
 	.article_content{
 		display: -webkit-box;
 		-webkit-box-orient:vertical;
@@ -361,6 +367,7 @@
 		overflow: hidden;
 		-webkit-line-clamp: 3;
 		line-height: 50upx;
+		margin-bottom: 5upx;
 	}
 	.end{
 		text-align: center;
@@ -372,5 +379,6 @@
 		position: fixed;
 		bottom: 140upx;
 		left: 340upx;
+		z-index: 999;
 	}
 </style>

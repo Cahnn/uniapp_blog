@@ -19,7 +19,7 @@
 		</view>
 		<view class="info">
 			<h2 class="title">{{blogInfo.title}}</h2>
-			<view class="content">{{blogInfo.content}}</view>
+			<rich-text :nodes="blogInfo.content" class="content"></rich-text>
 		</view>
 	</view>
 </template>
@@ -53,7 +53,6 @@
 				}
 			})
 			this.getCollectionActive()
-			
 		},
 		onShow() {
 			if (uni.getStorageSync('userid')) {
@@ -261,7 +260,7 @@
 }
 .operation view{
 	flex: 1;
-	text-align: center; 
+	text-align: center;
 	font-size: 25upx;
 }
 .operation view image{
@@ -272,9 +271,13 @@
 	margin-top: 40upx;
 	padding-bottom: 160upx;
 }
+.title{
+	margin-bottom: 30upx;
+}
 .content{
-	margin-top: 20upx;
+	padding-top: 30upx;
 	line-height: 60upx;
 	font-size: 40upx;
+	text-align: left;
 }
 </style>

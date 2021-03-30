@@ -34,7 +34,10 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "新建/修改",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": false,
+				"usingSwanComponents": {
+					"editor": "dynamicLib://editorLib/editor"
+				}
             }
             
         },

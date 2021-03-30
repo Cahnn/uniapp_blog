@@ -60,25 +60,31 @@
 			}
 		},
 		onLoad() {
-			uni.request({
-				url:this.server_url+"/users/find",
-				method:"POST",
-				success: (res) => {
-					this.userInfo = res.data.data[0]
-				},
-				fail: (err) => {
-					console.log(err)
-				}
-			})
+			this.getUserInfo()
 			this.getBlinks()
 			this.animation = uni.createAnimation()
+		},
+		onShow() {
+			this.getUserInfo()
 		},
 		onUnload() {
 			// 页面卸载时清除动画数据
 			this.animationData = {}
 			this.animationArr = []
 		},
-		methods: {			
+		methods: {	
+			async getUserInfo(){
+				uni.request({
+					url:this.server_url+"/users/find",
+					method:"POST",
+					success: (res) => {
+						this.userInfo = res.data.data[0]
+					},
+					fail: (err) => {
+						console.log(err)
+					}
+				})
+			},
 			lookMe(e){
 				// urls一定是数组形式
 				var imgIndex = e.currentTarget.dataset.iIndex
@@ -193,7 +199,7 @@
 			}
 			.name{
 				flex: 1;
-				line-height: 130upx;
+				line-height: 120upx;
 				font-size: 40upx;
 			}
 			.deleteBtn{
@@ -251,11 +257,12 @@
 	}
 	.publish{
 		position: fixed;
-		right: 20px;
-		bottom: 80px;
-		width: 65px;
-		height: 65px;
-		border-radius: 50px;
+		right: 40upx;
+		bottom: 160upx;
+		width: 130upx;
+		height: 130upx;
+		border-radius: 100upx;
+		z-index: 999;
 	}
 	.end{
 		text-align: center;

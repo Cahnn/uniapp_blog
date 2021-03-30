@@ -6,8 +6,61 @@
 				<input value="" placeholder="请输入标题" type="text" v-else v-model="editBlog.title" />
 			</view>
 			<view class="blog_content">
-				<textarea name="content" maxlength="-1" placeholder="请输入内容..." v-if="!this.id" style="overflow: hidden;"></textarea>
-				<textarea maxlength="-1" placeholder="请输入内容..." v-else v-model="editBlog.content" style="overflow: hidden;"></textarea>
+					<view class='wrapper'>
+						<view class='toolbar'  v-if="!this.id" @tap="format" style="height: 120px;overflow-y: auto;" disabled>
+							<view :class="formats.bold ? 'ql-active' : ''" class="iconfont icon-zitijiacu" data-name="bold"></view>
+							<view :class="formats.italic ? 'ql-active' : ''" class="iconfont icon-zitixieti" data-name="italic"></view>
+							<view :class="formats.underline ? 'ql-active' : ''" class="iconfont icon-zitixiahuaxian" data-name="underline"></view>
+							<view :class="formats.strike ? 'ql-active' : ''" class="iconfont icon-zitishanchuxian" data-name="strike"></view>
+							<view :class="formats.align === 'left' ? 'ql-active' : ''" class="iconfont icon-zuoduiqi" data-name="align"
+							 data-value="left"></view>
+							<view :class="formats.align === 'center' ? 'ql-active' : ''" class="iconfont icon-juzhongduiqi" data-name="align"
+							 data-value="center"></view>
+							<view :class="formats.align === 'right' ? 'ql-active' : ''" class="iconfont icon-youduiqi" data-name="align"
+							 data-value="right"></view>
+							<view :class="formats.align === 'justify' ? 'ql-active' : ''" class="iconfont icon-zuoyouduiqi" data-name="align"
+							 data-value="justify"></view>
+							<view :class="formats.fontFamily ? 'ql-active' : ''" class="iconfont icon-font" data-name="fontFamily" data-value="Pacifico"></view>
+							<view :class="formats.fontSize === '24px' ? 'ql-active' : ''" class="iconfont icon-fontsize" data-name="fontSize"
+							 data-value="24px"></view>
+							<view :class="formats.color === '#0000ff' ? 'ql-active' : ''" class="iconfont icon-text_color" data-name="color"
+							 data-value="#0000ff"></view>
+							<view :class="formats.backgroundColor === '#00ff00' ? 'ql-active' : ''" class="iconfont icon-fontbgcolor"
+							 data-name="backgroundColor" data-value="#00ff00"></view>
+							<view class="iconfont icon-date" @tap="insertDate"></view>
+							<view class="iconfont icon-undo" @tap="undo"></view>
+							<view class="iconfont icon-redo" @tap="redo"></view>
+							<view class="iconfont icon-fengexian" @tap="insertDivider"></view>
+							<view class="iconfont icon-shanchu" @tap="clear"></view>
+						</view>
+					
+						<view class="editor-wrapper">
+							<editor 
+								v-if="!this.id"
+								id="editor" 
+								class="ql-container" 
+								placeholder="开始输入..." 
+								showImgSize showImgToolbar showImgResize
+								@statuschange="onStatusChange" 
+								@input="onEditorInput"
+								@ready="onEditorReady">
+							</editor>
+						<!-- 	<editor
+								v-else
+								id="editor" 
+								class="ql-container" 
+								placeholder="开始输入..." 
+								v-model="editBlog.content"
+								showImgSize showImgToolbar showImgResize
+								@statuschange="onStatusChange" 
+								@input="onEditorInput"
+								@ready="onEditorReady">
+							</editor> -->
+							<textarea maxlength="-1" placeholder="请输入内容..." v-else v-model="editBlog.content" style="overflow: hidden;"></textarea>
+						</view>
+					</view>
+				<!-- <textarea name="content" maxlength="-1" placeholder="请输入内容..." v-if="!this.id" style="overflow: hidden;"></textarea> -->
+				
 			</view>
 			<view class="selectCategory">
 				<scroll-view scroll-x="true" class="scrollx">
@@ -32,7 +85,7 @@
 				</scroll-view>
 			</view>
 			<view class="submit">
-				<button type="default" form-type="submit" class="postArti">发布文章</button>
+				<button type="default" form-type="submit" class="postArti">发布</button>
 			</view>
 		</form>
 	</view>
@@ -47,7 +100,10 @@
 				blogInfo:{},
 				categoryFilterList:[],
 				id:Number,
-				editBlog:{}
+				editBlog:{},
+				inputText:'',
+				formats: {},
+				readOnly: false,
 			}
 		},
 		onLoad(option) {
@@ -77,14 +133,90 @@
 					this.categoryFilterList = res.data.data
 				}
 			})
+			uni.loadFontFace({
+				family: 'Pacifico',
+				source: 'url("https://sungd.github.io/Pacifico.ttf")'
+			})
 		},
 		methods: {
+			onEditorInput(e){
+				var that = this;
+				this.inputText = e.detail.html
+				// console.log(e.detail.html); //带标签内容
+				// console.log(e.detail.text); //纯文本内容
+			},
+			readOnlyChange() {
+				this.readOnly = !this.readOnly
+			},
+			onEditorReady() {
+				uni.createSelectorQuery().select('#editor').context((res) => {
+					this.editorCtx = res.context
+				}).exec()
+			},
+			undo() {
+				this.editorCtx.undo()
+			},
+			redo() {
+				this.editorCtx.redo()
+			},
+			format(e) {
+				let {
+					name,
+					value
+				} = e.target.dataset
+				if (!name) return
+				// console.log('format', name, value)
+				this.editorCtx.format(name, value)
+			
+			},
+			onStatusChange(e) {
+				const formats = e.detail
+				this.formats = formats
+			},
+			insertDivider() {
+				this.editorCtx.insertDivider({
+					success: function() {
+						console.log('insert divider success')
+					}
+				})
+			},
+			clear() {
+				this.editorCtx.clear({
+					success: function(res) {
+						console.log("clear success")
+					}
+				})
+			},
+			removeFormat() {
+				this.editorCtx.removeFormat()
+			},
+			insertDate() {
+				const date = new Date()
+				const formatDate = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
+				this.editorCtx.insertText({
+					text: formatDate
+				})
+			},
+			insertImage() {
+				uni.chooseImage({
+					count: 1,
+					success: (res) => {
+						this.editorCtx.insertImage({
+							src: res.tempFilePaths[0],
+							alt: '图像',
+							success: function() {
+								console.log('insert image success')
+							}
+						})
+					}
+				})
+			},
 			formSubmit(e){
 				  this.blogInfo=e.detail.value
 				  if(this.blogInfo.title === '') {
 					  alert("文章标题不能为空")
 					  return;
-				  }	else if(this.blogInfo.content == '') {
+				  }	else if(this.blogInfo.content === '') {
 					  alert("文章内容不能为空")
 					  return;
 				  }	
@@ -94,7 +226,6 @@
 				  }	
 				  else if(this.id) {
 					  console.log("编辑内容的id",this.id)
-					  console.log(this.editBlog.title)
 					  uni.request({
 					  	url:this.server_url+"/blog/update",
 						method:"POST",
@@ -126,7 +257,7 @@
 						},
 						data:{
 							title:this.blogInfo.title,
-							content:this.blogInfo.content,
+							content:this.inputText,
 							category:this.blogInfo.category
 						},
 						success: (res) => {
@@ -156,6 +287,7 @@
 </script>
 
 <style>
+@import "./editor-icon.css";
 .blog_title{
 	width: 100%;
 	height: 120upx;
@@ -174,12 +306,52 @@ textarea{
 	font-size: 18px;
 	margin: 20upx;
 }
+.wrapper {
+	height: 50%;
+}
+.editor-wrapper {
+	height: calc(100vh - var(--window-top) - var(--status-bar-height) - 560upx);
+	background: #fff;
+}
+
+.iconfont {
+	display: inline-block;
+	padding: 8px 8px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	font-size: 20px;
+}
+
+.toolbar {
+	height: 160upx !important;
+	box-sizing: border-box;
+	border-bottom: 0;
+	font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+}
+
+
+.ql-container {
+	box-sizing: border-box;
+	padding: 12upx 15upx;
+	width: 100%;
+	min-height: 30vh;
+	height: 100%;
+	margin-top: 20upx;
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+.ql-active {
+	color: #06c;
+}
 .selectCategory{
 	width: 100%;
 	height: 130upx;
 	border-top: #F1F1F1 5upx solid;
 	position: fixed;
 	bottom: 140upx;
+	background-color: white;
 }
 .uni-list{
 	width: 100%;

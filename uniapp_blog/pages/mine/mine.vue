@@ -40,18 +40,24 @@
 			}
 		},
 		onLoad() {
-			uni.request({
-				url:this.server_url+"/users/find",
-				method:"POST",
-				success: (res) => {
-					this.userInfo = res.data.data[0]
-				},
-				fail: (err) => {
-					console.log(err)
-				}
-			})
+			this.getUserInfo()
+		},
+		onShow() {
+			this.getUserInfo()
 		},
 		methods: {
+			async getUserInfo(){
+				uni.request({
+					url:this.server_url+"/users/find",
+					method:"POST",
+					success: (res) => {
+						this.userInfo = res.data.data[0]
+					},
+					fail: (err) => {
+						console.log(err)
+					}
+				})
+			},
 			manageCategory(){
 				uni.navigateTo({
 					url:'./components/manageCategory'

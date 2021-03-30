@@ -1,7 +1,6 @@
 <template>
 	<view class="concern">
-		<view class="tip">左滑可取消关注文章~</view>
-		<block
+		<!-- <block
 			v-for="(item,index) in collectionBlogsList" 
 			:key="index" 
 			:class="index===collectionBlogsList.length"
@@ -19,25 +18,65 @@
 					<view class="article_content">{{item.content}}</view>
 			</view>
 			<view class="end" v-if="index==collectionBlogsList.length-1">{{status}}</view>
-		</block>
+		</block> -->
+		<uni-notice-bar single="true" text="[提示] 左滑可取消关注~"></uni-notice-bar>
+		<uni-swipe-action>
+		    <!-- 使用插槽 （请自行给定插槽内容宽度）-->
+		    <uni-swipe-action-item
+				v-for="(item,index) in collectionBlogsList"
+				:key="index" 
+				:class="index===collectionBlogsList.length">
+				<uni-card
+					@tap="goBlogInfo(item)"
+					:title="item.title" 
+					:thumbnail="userInfo.topImage" 
+					:extra="item.createdAt">
+						<view class="article_content">{{item.content}}</view>
+				</uni-card>
+		        <template v-slot:right>
+		            <view  @tap="cancelCol(index)" class="cancelConcern">
+						<image src="../../../static/mine/cancel.png" style="width: 100upx;height: 100upx;margin-top: 50upx;"></image>
+					</view>
+		        </template>
+		    </uni-swipe-action-item>
+		</uni-swipe-action>
+
 		
 	</view>
 </template>
 
 <script>
+	import uniNoticeBar from '../../../uni_modules/uni-notice-bar/components/uni-notice-bar/uni-notice-bar.vue'
+	import uniCard from '../../../uni_modules/uni-card/components/uni-card/uni-card.vue'
+	import uniSwipeActionItem from '../../../uni_modules/uni-swipe-action/components/uni-swipe-action-item/uni-swipe-action-item.vue'
+	import uniSwipeAction from '../../../uni_modules/uni-swipe-action/components/uni-swipe-action/uni-swipe-action.vue'
 	export default{
 		data(){
 			return{
 				collectionBlogsList:[],
 				status:'没有更多了',
 				theIndex:null,
-				oldIndex:null
+				oldIndex:null,
+				userInfo:{}
 			}
 		},
 		onLoad() {
 			this.getCollectionList()
+			this.getUserInfo()
 		},
 		methods:{
+			async getUserInfo(){
+				uni.request({
+					url:this.server_url+"/users/find",
+					method:"POST",
+					success: (res) => {
+						this.userInfo = res.data.data[0]
+					},
+					fail: (err) => {
+						console.log(err)
+					}
+				})
+			},
 			goBlogInfo(blogInfo){
 				console.log(blogInfo)
 				uni.navigateTo({
@@ -62,29 +101,29 @@
 					}
 				})
 			},
-			moveStart(index,e){
-				if(e.touches.length>1){
-					return;
-				}
-				this.initXY = [e.touches[0].pageX, e.touches[0].pageY]
-			},
-			moving(index,e){
-				if(e.touches.length>1){
-					return;
-				}
-				let moveX = e.touches[0].pageX - this.initXY[0]
-				let moveY = e.touches[0].pageY-this.initXY[1]
+			// moveStart(index,e){
+			// 	if(e.touches.length>1){
+			// 		return;
+			// 	}
+			// 	this.initXY = [e.touches[0].pageX, e.touches[0].pageY]
+			// },
+			// moving(index,e){
+			// 	if(e.touches.length>1){
+			// 		return;
+			// 	}
+			// 	let moveX = e.touches[0].pageX - this.initXY[0]
+			// 	let moveY = e.touches[0].pageY-this.initXY[1]
 				
-				if(moveX<0){
-					this.theIndex = index
-				}else{
-					this.oldIndex = this.theIndex;
-					this.theIndex = null
-				}
-			},
-			mouveend(index,e){
+			// 	if(moveX<0){
+			// 		this.theIndex = index
+			// 	}else{
+			// 		this.oldIndex = this.theIndex;
+			// 		this.theIndex = null
+			// 	}
+			// },
+			// mouveend(index,e){
 				
-			},
+			// },
 			setBlogCollection(MyCollectionBlogsList,coll) {
 				console.log("存储到本地存储中")
 				console.log(MyCollectionBlogsList)
@@ -115,6 +154,12 @@
 					}
 				})
 			}
+		},
+		components:{
+			uniSwipeActionItem,
+			uniSwipeAction,
+			uniCard,
+			uniNoticeBar
 		}
 	}
 </script>
@@ -130,60 +175,58 @@
 		color: #FFFFFF;
 		padding-left: 20upx;
 	}
+	// .cancelConcern{
+	// 	width: 20%;
+	// 	height: 232upx;
+	// 	position: absolute;
+	// 	right: 45upx;
+	// 	// background-color: #e05c55;
+	// 	z-index: 0;
+	// 	padding:8upx;
+	// 	font-size: 28upx;
+	// 	text-align: center;
+	// 	margin-top: 3px;
+	// }
 	.cancelConcern{
-		width: 20%;
-		height: 232upx;
-		position: absolute;
-		right: 45upx;
-		// background-color: #e05c55;
-		z-index: 0;
-		padding:8upx;
-		font-size: 28upx;
-		text-align: center;
-		margin-top: 3px;
-	}
-	.colBlogItem{
-		width: 85%;
-		height: 230upx;
-		margin: 20upx auto;
-		padding: 20upx;
-		background-color: #F9F9F9;
-		border-radius: 20upx;
+		width: 100%;
+		display: flex;
 		align-items: center;
-		font-size: 18upx;
-		// background-color: #FFFFFF;
-		z-index: 3;
-		position: relative;
-		@keyframes showMenu{
-			0%{
-				transform: translateX(0);
-			}
-			100%{
-				transform: translateX(-30%);
-			}
-		}
-		@keyframes closeMenu{
-			0%{
-				transform: translateX(-30%);
-			}
-			100%{
-				transform: translateX(0);
-			}
-		}
-		&.open{
-			animation: showMenu 0.25s linear both;
-		}
-		&.close{
-			animation: closeMenu 0.15s linear both;
-		}
 	}
-	.article_title{
-		height: 60upx;
-		font-size: 18px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
+	// .colBlogItem{
+	// 	width: 85%;
+	// 	height: 230upx;
+	// 	margin: 20upx auto;
+	// 	padding: 20upx;
+	// 	background-color: #F9F9F9;
+	// 	border-radius: 20upx;
+	// 	align-items: center;
+	// 	font-size: 18upx;
+	// 	// background-color: #FFFFFF;
+	// 	z-index: 3;
+	// 	position: relative;
+	// 	@keyframes showMenu{
+	// 		0%{
+	// 			transform: translateX(0);
+	// 		}
+	// 		100%{
+	// 			transform: translateX(-30%);
+	// 		}
+	// 	}
+	// 	@keyframes closeMenu{
+	// 		0%{
+	// 			transform: translateX(-30%);
+	// 		}
+	// 		100%{
+	// 			transform: translateX(0);
+	// 		}
+	// 	}
+	// 	&.open{
+	// 		animation: showMenu 0.25s linear both;
+	// 	}
+	// 	&.close{
+	// 		animation: closeMenu 0.15s linear both;
+	// 	}
+	// }
 	.article_content{
 		display: -webkit-box;
 		-webkit-box-orient:vertical;
@@ -195,6 +238,7 @@
 		-webkit-line-clamp: 3;
 		line-height: 50upx;
 		font-size: 15px;
+		margin-bottom: 10upx;
 	}
 	.end{
 		text-align: center;
