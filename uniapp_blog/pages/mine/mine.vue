@@ -5,11 +5,15 @@
 			<view class="info">
 				<view class="topImg">
 					<view class="img">
-						<image src="../../static/blinkfill.png" style="width: 100%;height: 100%;"></image>
+						<image :src="userInfo.topImage" style="width: 100%;height: 100%;border-radius: 50%;"></image>
 					</view>
 				</view>
 				<view class="name">
-					<h2>Lecoce</h2>
+					<h2>{{userInfo.nickname}}</h2>
+					<p style="margin-top: 10upx;">{{userInfo.account}}</p>
+				</view>
+				<view class="goInfo" @click="goInfo()">
+					<image src="../../static/mine/goInfo.png" style="width: 60upx;height: 60upx;"></image>
 				</view>
 			</view>
 			<view class="mess">
@@ -31,8 +35,21 @@
 		data() {
 			return {
 				attention:0,
-				fans:0
+				fans:0,
+				userInfo:{}
 			}
+		},
+		onLoad() {
+			uni.request({
+				url:this.server_url+"/users/find",
+				method:"POST",
+				success: (res) => {
+					this.userInfo = res.data.data[0]
+				},
+				fail: (err) => {
+					console.log(err)
+				}
+			})
 		},
 		methods: {
 			manageCategory(){
@@ -43,6 +60,12 @@
 			toConcern() {
 				uni.navigateTo({
 					url:'components/concern'
+				})
+			},
+			goInfo(){
+				console.log("2222")
+				uni.navigateTo({
+					url:'./settingInfo/infoSetting'
 				})
 			}
 		}
@@ -85,9 +108,14 @@
 	margin-left: 20upx;
 }
 .name{
-	width: 40%;
+	flex: 1;
 	height: 200upx;
-	line-height: 180upx;
+	margin-top: 35upx;
+}
+.goInfo{
+	width: 10%;
+	display: flex;
+	align-items: center;
 }
 .mess{
 	width: 100%;

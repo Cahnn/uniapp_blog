@@ -15,9 +15,6 @@
 				<image :src="collectionImg"></image>
 				<br/>
 				<view class="word">{{colStatus}}</view>
-				<view :animation="animationData" class="praise-me animation-opacity">
-					+1
-				</view>
 			</view>
 		</view>
 		<view class="info">

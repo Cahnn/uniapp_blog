@@ -1,11 +1,11 @@
 <template>
 	<view>
-		<view class="blink" v-for="(item,index) in blinks" :key="index">
+		<view class="blink" v-for="(item,bIndex) in blinks" :key="bIndex">
 			<view class="perMess">
 				<view class="img">
-					<image :src="img" style="width: 100upx;height: 100upx;"></image>
+					<image :src="userInfo.topImage" style="width: 100upx;height: 100upx;"></image>
 				</view>
-				<view class="name">{{name}}</view>
+				<view class="name">{{userInfo.nickname}}</view>
 				<view class="deleteBtn">
 					<span class="deleteBlink" @tap="deleteBlink(item.id)">删除</span>
 				</view>
@@ -15,8 +15,9 @@
 				<image 
 					:src="item.photo"  
 					@tap="lookMe"
-					:data-index="index"
+					:data-iIndex="bIndex"
 					mode="widthFix"></image>
+					
 			</view>
 			<view class="tag" v-show="item.tag">
 				<span class="tag-item">
@@ -24,16 +25,15 @@
 				</span>
 			</view>
 			<view class="operation">
-				<view class="good" :data-index="index"  @click="praiseMe">
-					<image class="goodIcon" src="../../static/blink/good.png"></image>
-					<!-- <span>点赞</span> -->
-					<view :animation="animationArr[index]" class="praise-me animation-opacity">
+				<view class="good">
+					 <!-- @click="praiseMe" -->
+					<image class="goodIcon" :data-bIndex="bIndex" src="../../static/blink/good.png"></image>
+					<view :animation="animationArr[bIndex]" class="praise-me animation-opacity">
 						+1
 					</view>
 				</view>
 				<view class="comment">
 					<image class="commentIcon" src="../../static/blink/comment.png"></image>
-					<!-- <span>评论</span> -->
 				</view>
 				
 			</view>
@@ -52,15 +52,24 @@
 	export default {
 		data() {
 			return {
-				img:'/static/blinkfill.png',
-				name:'Lecoce',
 				blinks:[],
 				status:'没有更多了',
+				userInfo:{},
 				animationData:{},
 				animationArr:[]
 			}
 		},
 		onLoad() {
+			uni.request({
+				url:this.server_url+"/users/find",
+				method:"POST",
+				success: (res) => {
+					this.userInfo = res.data.data[0]
+				},
+				fail: (err) => {
+					console.log(err)
+				}
+			})
 			this.getBlinks()
 			this.animation = uni.createAnimation()
 		},
@@ -72,7 +81,7 @@
 		methods: {			
 			lookMe(e){
 				// urls一定是数组形式
-				var imgIndex = e.currentTarget.dataset.index
+				var imgIndex = e.currentTarget.dataset.iIndex
 				let imgArr = []
 				imgArr[0] = this.blinks[imgIndex].photo
 				uni.previewImage({
@@ -143,18 +152,14 @@
 			},
 			praiseMe(e){
 				// 课程中提到dataset下面的值都是小写，经测试表明dataset下面的值要与绑定的值一致
-				var index = e.currentTarget.dataset.index;
-				// console.log(e.currentTarget.dataset)
-				// console.log(gIndex)
+				var bIndex = e.currentTarget.dataset.bIndex;
 				// 此动画向上偏移60px 透明度调整为1 step() 表示一组动画的完成
 				this.animation.translateY(-80).opacity(1).step({
 					duration:400
 				})
 				// 导出动画数据  实现组件的动画效果
 				this.animationData = this.animation;
-				// this.animationDataArr[gIndex] = this.animationData.export();
-				// H5不支持此动画,用$set()的方式
-				this.$set(this.animationArr, index, this.animationData.export())
+				this.$set(this.animationArr, bIndex, this.animationData.export())
 				
 				// 还原动画
 				setTimeout(function(){
@@ -162,8 +167,7 @@
 						duration:0
 					})
 					this.animationData = this.animation;
-					// this.animationDataArr[gIndex] = this.animationData.export();
-					this.$set(this.animationArr, index, this.animationData.export())
+					this.$set(this.animationArr, bIndex, this.animationData.export())
 				}.bind(this),500)
 			}
 		}

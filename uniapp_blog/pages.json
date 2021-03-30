@@ -1,6 +1,15 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+		    "path" : "pages/login/login",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "登录",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
 			"path": "pages/home/home",
 			"style": {
 				"navigationBarTitleText": "首页",
@@ -54,7 +63,57 @@
             }
             
         }
-        ,{
+        ,
+		{
+		    "path" : "pages/mine/settingInfo/infoSetting",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "用户信息",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
+		,
+		{
+		    "path" : "pages/mine/settingInfo/components/setBirthday",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "修改生日",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
+		,
+		{
+		    "path" : "pages/mine/settingInfo/components/setFace",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "上传头像",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
+		,
+		{
+		    "path" : "pages/mine/settingInfo/components/setNickname",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "修改昵称",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
+		,
+		{
+		    "path" : "pages/mine/settingInfo/components/setSex",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "修改性别",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
+		,{
             "path" : "pages/blink/components/publish",
             "style" :                                                                                    
             {
