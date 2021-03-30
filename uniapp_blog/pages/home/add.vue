@@ -214,7 +214,7 @@ textarea{
 	border-radius: 24upx;
 	background-color: #D81E06;
 	color: white;
-	font-size: 40upx;
+	font-size: 20px;
 	float: right;
 	margin-right: 40upx;
 	margin-top: 14upx;

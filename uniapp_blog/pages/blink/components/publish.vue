@@ -73,6 +73,11 @@
 						// console.log('chooseImage success, temp path is', res.tempFilePaths[0])
 						var imageSrc = res.tempFilePaths[0]
 						console.log(imageSrc)
+						uni.showLoading({
+							// 是否显示透明蒙层，防止触摸穿透
+							mask:true,
+							title:"上传中，请稍后"
+						})
 						uni.uploadFile({
 							url: this.server_url+"/blink/addImg",
 							filePath: imageSrc,
@@ -116,6 +121,9 @@
 							}
 						})
 						// #endif
+					},
+					complete(){
+						uni.hideLoading()
 					}
 				})
 			}
@@ -158,9 +166,9 @@
 			float: right;
 			margin-right: 20upx;
 			width: 250upx;
-			height: 120upx;
+			height: 110upx;
 			line-height: 120upx;
-			font-size: 40upx;
+			font-size: 20px;
 			background-color: #D81E06;
 			color: #FFFFFF;
 		}

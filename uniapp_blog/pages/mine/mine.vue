@@ -9,7 +9,7 @@
 					</view>
 				</view>
 				<view class="name">
-					<h2>{{userInfo.nickname}}</h2>
+					<h3>{{userInfo.nickname}}</h3>
 					<p style="margin-top: 10upx;">{{userInfo.account}}</p>
 				</view>
 				<view class="goInfo" @click="goInfo()">

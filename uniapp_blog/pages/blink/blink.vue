@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="blink" v-for="(item,bIndex) in blinks" :key="bIndex">
+		<view class="blink" v-for="(item,bIndex) in blinks.slice().reverse()" :key="bIndex">
 			<view class="perMess">
 				<view class="img">
 					<image :src="userInfo.topImage" style="width: 100upx;height: 100upx;"></image>
