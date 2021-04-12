@@ -163,11 +163,12 @@
 	.add{
 		width: 100%;
 		height: 120upx;
-		line-height: 120upx;
-		display: flex;
-		background-color: #F2F2F2;
+		display: flex;				// 定义flex布局
+		flex-direction: row;		// 横向排列
+		justify-content: center;   // 垂直居中
+		align-items: center;		// 水平居中
 		image{
-			margin: 33upx 20upx 0 35%;
+			margin-right: 10upx;
 		}
 	}
 </style>

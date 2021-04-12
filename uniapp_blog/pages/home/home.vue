@@ -48,7 +48,8 @@
 						    	<!-- <view class="article_content">{{item.content}}</view> -->
 								<rich-text :nodes="item.content" class="article_content"></rich-text>
 						</uni-card>
-						<view class="end">{{status}}</view>
+						<view class="end" v-if="blogs.length>=1">没有更多了</view>
+						<view class="end" v-else>没有此分类文章~</view>
 					</view>
 				</view>
 			</view>			
@@ -71,7 +72,6 @@
 				categoryFilterList:[],
 				blogs:[],
 				tabId: 1,
-				status:'没有更多了',
 				filterText:'',
 				filterList:[],
 				scrollTop: 0,
@@ -166,14 +166,14 @@
 			goBlogInfo(blogInfo){
 				uni.navigateTo({
 					//encodeURIComponent() 函数可把字符串作为 URI 组件进行编码。
-					url:'/pages/home/blogInfoCmpt?blogInfo='+JSON.stringify(blogInfo)
+					url:'/pages/home/components/blogInfoCmpt?blogInfo='+JSON.stringify(blogInfo)
 				})
 			},
 			// 新建文章
 			goToPage(){
 				uni.navigateTo({
 					//encodeURIComponent() 函数可把字符串作为 URI 组件进行编码。
-					url:'/pages/home/add'
+					url:'/pages/home/components/add'
 				})
 			},
 			// 从后台获取数据

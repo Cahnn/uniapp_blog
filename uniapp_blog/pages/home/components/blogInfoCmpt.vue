@@ -2,12 +2,12 @@
 	<view class="blogInfo">
 		<view class="operation">
 			<view class="edit" @click="editBlog(blogInfo)" :data-artid="blogInfo.id">
-				<image src="../../static/message/comment.png"></image>
+				<image src="/static/message/comment.png"></image>
 				<br/>
 				<view class="word">编辑</view>
 			</view>
 			<view class="good" @tap="deleteBlog" :data-artid="blogInfo.id">
-				<image src="../../static/message/delete.png"></image>
+				<image src="/static/message/delete.png"></image>
 				<br/>
 				<view class="word">删除</view>
 			</view>
@@ -173,7 +173,7 @@
 				console.log(e.id)
 				var artId = e.id;
 				uni.navigateTo({
-					url:'/pages/home/add?artId='+artId
+					url:'/pages/home/components/add?artId='+artId
 				})
 			},
 			deleteBlog(e){

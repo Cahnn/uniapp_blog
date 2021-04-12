@@ -287,7 +287,7 @@
 </script>
 
 <style>
-@import "./editor-icon.css";
+@import "../editorIcon/editor-icon.css";
 .blog_title{
 	width: 100%;
 	height: 120upx;

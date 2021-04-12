@@ -8,7 +8,7 @@
 		</view>
 		<input :value="userInfo.account" placeholder="输入帐号"  @input="accountInput"/>
 		<input :value="userInfo.password" password="true" placeholder="输入密码" @input="passwordInput"/>
-		<button @click="login">登录</button>
+		<view @click="login" class="login">登录</view>
 	</view>
 </template>
 
@@ -78,13 +78,16 @@ input{
 	margin: 40upx auto;
 	border: 1px solid #272636;
 }
-button{
+.login{
 	width: 30%;
 	height: 90upx;
+	line-height: 90upx;
 	border-radius: 50upx;
 	margin: 0 auto;
 	background: none;
 	color: #272636;
 	border: 1px solid #272636;
+	display: flex;
+	justify-content: center;
 }
 </style>

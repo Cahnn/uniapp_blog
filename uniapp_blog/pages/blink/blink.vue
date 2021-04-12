@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="blink" v-for="(item,bIndex) in blinks.slice().reverse()" :key="bIndex">
+		<view class="blink" v-for="(item,bIndex) in blinks" :key="bIndex">
 			<view class="perMess">
 				<view class="img">
 					<image :src="userInfo.topImage" style="width: 100upx;height: 100upx;"></image>
@@ -26,11 +26,7 @@
 			</view>
 			<view class="operation">
 				<view class="good">
-					 <!-- @click="praiseMe" -->
-					<image class="goodIcon" :data-bIndex="bIndex" src="../../static/blink/good.png"></image>
-					<view :animation="animationArr[bIndex]" class="praise-me animation-opacity">
-						+1
-					</view>
+					<image class="goodIcon" :data-bIndex="bIndex" :animation="animationDataArr[bIndex]"  @tap="rotateAndScale" src="/static/blink/good.png"></image>
 				</view>
 				<view class="comment">
 					<image class="commentIcon" src="../../static/blink/comment.png"></image>
@@ -55,8 +51,8 @@
 				blinks:[],
 				status:'没有更多了',
 				userInfo:{},
-				animationData:{},
-				animationArr:[]
+				animationData: '',
+				animationDataArr:[]
 			}
 		},
 		onLoad() {
@@ -69,8 +65,8 @@
 		},
 		onUnload() {
 			// 页面卸载时清除动画数据
-			this.animationData = {}
-			this.animationArr = []
+			this.animationData = ''
+			this.animationDataArr = []
 		},
 		methods: {	
 			async getUserInfo(){
@@ -88,6 +84,7 @@
 			lookMe(e){
 				// urls一定是数组形式
 				var imgIndex = e.currentTarget.dataset.iIndex
+				console.log(imgIndex)
 				let imgArr = []
 				imgArr[0] = this.blinks[imgIndex].photo
 				uni.previewImage({
@@ -156,24 +153,20 @@
 					}
 				})
 			},
-			praiseMe(e){
-				// 课程中提到dataset下面的值都是小写，经测试表明dataset下面的值要与绑定的值一致
+			rotateAndScale: function (e) {		
 				var bIndex = e.currentTarget.dataset.bIndex;
-				// 此动画向上偏移60px 透明度调整为1 step() 表示一组动画的完成
-				this.animation.translateY(-80).opacity(1).step({
-					duration:400
-				})
-				// 导出动画数据  实现组件的动画效果
-				this.animationData = this.animation;
-				this.$set(this.animationArr, bIndex, this.animationData.export())
+				this.animation.rotate(5 * 8)
+					.scale(3 * 3)
+					.step({duration:1000})
+				this.animationData = this.animation
+				this.$set(this.animationDataArr, bIndex, this.animationData.export())
 				
-				// 还原动画
 				setTimeout(function(){
-					this.animation.translateY(0).opacity(0).step({
-						duration:0
-					})
-					this.animationData = this.animation;
-					this.$set(this.animationArr, bIndex, this.animationData.export())
+					this.animation.rotate(1 * 1)
+						.scale(1 * 1)
+						.step({duration:800})
+					this.animationData = this.animation
+					this.$set(this.animationDataArr, bIndex, this.animationData.export())
 				}.bind(this),500)
 			}
 		}

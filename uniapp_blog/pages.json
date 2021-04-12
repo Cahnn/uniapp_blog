@@ -30,7 +30,7 @@
 			}
 		}
 	    ,{
-            "path" : "pages/home/add",
+            "path" : "pages/home/components/add",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "新建/修改",
@@ -42,7 +42,7 @@
             
         },
 		{
-            "path" : "pages/home/blogInfoCmpt",
+            "path" : "pages/home/components/blogInfoCmpt",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "博客详情",
