@@ -1,3 +1,3 @@
 module.exports = {
-    dbsMysql: 'mysql://root:root@tccsoft.cn:3306/tanghs2_db'
+    dbsMysql: 'mysql://root:root@127.0.0.1:3306/blog'
 }
